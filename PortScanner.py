@@ -1,18 +1,50 @@
+import pyfiglet
 import socket
 import time
+from datetime import datetime
+import sys
 
-startTime = time.time()
+def scan_port(target: str):
+    print("-" * 50)
+    print(f"Scanning Target: {target}")
+    print(f"Scan started at {str(datetime.now())}")
+    print(f"-" * 50)
+
+    try:
+        startTime = time.time()
+        # scanning 50 50 1000 ports - we can increase the number (1 - 65535)
+        for port in range(50, 1000):
+            sock_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            
+            # returns an error indicator 
+            result = sock_obj.connect_ex((target, port))
+            if result == 0:
+                print(f" Port{port} : OPEN")
+            sock_obj.close()
+        print("Time taken: ", time.time() - startTime)
+    except socket.error:
+        print("Server not responding!")
+        sys.exit()
+
 
 if __name__ == '__main__':
-    target = input("Enter the host to be scanned: ")
-    t_ip = socket.gethostbyname(target)
-    print('Scanning started on host: ', t_ip)
-
-    for i in range(50, 500):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        conn = sock.connect_ex((t_ip, i))
-        if (conn == 0):
-            print('Port %d: OPEN' %(i,))
-        sock.close()
-
-print("Time taken: ", time.time() - startTime)
+    # Add Banner 
+    ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
+    print(ascii_banner)
+    try:
+        while True:
+            target = input("Enter the host to be scanned: ")
+            if len(target) < 4: # arbitary size 
+                print("Try Again!!")
+            else:
+                target_IP = socket.gethostbyname(target)
+                scan_port(target_IP)
+                break
+    except KeyboardInterrupt:
+        print("Exiting the program!")
+        sys.exit()
+    except socket.gaierror:
+        print("Hostname could not be resolved!")
+        sys.exit()
+        
