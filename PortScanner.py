@@ -30,7 +30,7 @@ def scan_port(target: str):
 
 if __name__ == '__main__':
     # Add Banner 
-    ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
+    ascii_banner = pyfiglet.figlet_format("PORT SCANNER", font = "slant")
     print(ascii_banner)
     try:
         while True:
@@ -47,4 +47,3 @@ if __name__ == '__main__':
     except socket.gaierror:
         print("Hostname could not be resolved!")
         sys.exit()
-        
