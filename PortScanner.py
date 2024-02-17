@@ -33,14 +33,9 @@ if __name__ == '__main__':
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER", font = "slant")
     print(ascii_banner)
     try:
-        while True:
-            target = input("Enter the host to be scanned: ")
-            if len(target) < 4: # arbitary size 
-                print("Try Again!!")
-            else:
-                target_IP = socket.gethostbyname(target)
-                scan_port(target_IP)
-                break
+        target = input("Enter the host to be scanned: ")
+        target_IP = socket.gethostbyname(target)
+        scan_port(target_IP)
     except KeyboardInterrupt:
         print("Exiting the program!")
         sys.exit()
