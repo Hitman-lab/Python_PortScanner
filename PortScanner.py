@@ -15,7 +15,7 @@ def scan_port(target: str):
         # scanning 50 50 1000 ports - we can increase the number (1 - 65535)
         for port in range(50, 1000):
             sock_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            socket.setdefaulttimeout(1)
+            socket.setdefaulttimeout(0.25)
             
             # returns an error indicator 
             result = sock_obj.connect_ex((target, port))
